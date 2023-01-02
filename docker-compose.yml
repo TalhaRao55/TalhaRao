@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_pw_shh
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ports:
+      - "9906:3306"
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+volumes:
+    db_data:
